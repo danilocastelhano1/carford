@@ -37,4 +37,4 @@ class Vehicle(models.Model):
     model = models.CharField(max_length=20, choices=MODELS_CHOICES, blank=False, null=False)
 
     def __str__(self):
-        return f"{self.color} - {self.model}"
+        return f"{self.person.name} - {self.color} - {self.model}"

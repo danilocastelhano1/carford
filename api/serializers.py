@@ -24,6 +24,10 @@ class PersonSerializer(serializers.ModelSerializer):
 
     @transaction.atomic
     def create(self, validated_data):
+        """
+        remove the nested information and
+        work with this information after creating the Perosn
+        """
         vehicles = validated_data.pop('vehicles', [])
 
         created_person = super(PersonSerializer, self).create(validated_data)
@@ -35,6 +39,10 @@ class PersonSerializer(serializers.ModelSerializer):
 
     @transaction.atomic
     def update(self, instance, validated_data):
+        """
+        remove the nested information and
+        work with this information after updating the Perosn
+        """
         vehicles = validated_data.pop('vehicles', [])
 
         updated_person = super(PersonSerializer, self).update(instance, validated_data)
@@ -46,6 +54,10 @@ class PersonSerializer(serializers.ModelSerializer):
 
 
 def create_vehicle(person: Person, vehicle: dict) -> None:
+    """
+    Method to check if the Vehicle is able to be created
+    following the rules of the test.
+    """
     color = Vehicle.objects.filter(person=person).filter(color=vehicle["color"])
     model = Vehicle.objects.filter(person=person).filter(model=vehicle["model"])
     if color.count() == 0 and model.count() == 0:
